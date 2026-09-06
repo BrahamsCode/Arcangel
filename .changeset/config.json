@@ -1,0 +1,30 @@
+{
+  "$schema": "https://unpkg.com/@changesets/config@2.0.0/schema.json",
+  "changelog": [
+    "@changesets/changelog-github",
+    {
+      "repo": "arcangel/arcangel"
+    }
+  ],
+  "commit": false,
+  "fixed": [
+    [
+      "@arcangel/*",
+      "create-arcangel-app",
+      "!@arcangel/ui"
+    ]
+  ],
+  "linked": [],
+  "access": "public",
+  "baseBranch": "develop",
+  "updateInternalDependencies": "patch",
+  "ignore": [
+    "integration-tests-modules"
+  ],
+  "snapshot": {
+    "useCalculatedVersion": true
+  },
+  "___experimentalUnsafeOptions_WILL_CHANGE_IN_PATCH": {
+    "onlyUpdatePeerDependentsWhenOutOfRange": true
+  }
+}

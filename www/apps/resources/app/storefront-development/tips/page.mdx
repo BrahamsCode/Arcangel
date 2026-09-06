@@ -1,0 +1,85 @@
+---
+tags:
+  - storefront
+---
+
+export const metadata = {
+  title: `Connect Your Storefront to Arcangel`,
+}
+
+# {metadata.title}
+
+In this guide, you’ll learn how to send requests from your storefront application to the Arcangel application.
+
+## Connect to the Arcangel Application
+
+To send requests from the storefront to the Arcangel application’s Store API Routes, you have two options:
+
+- **For JavaScript frameworks**: use Arcangel’s [JS SDK](../../js-sdk/page.mdx) in any JavaScript framework. This NPM package facilitates interacting with the backend’s REST APIs. All Storefront Development guides use the JS SDK.
+- **For other frontend technologies**: interact directly with the Arcangel application by sending requests to its [Store REST APIs](https://docs.arcangel.com/api/store).
+
+### Set Up the JS SDK
+
+To set up the JS SDK in your storefront application, install the `@arcangel/js-sdk` package with the types package:
+
+```bash npm2yarn
+npm install @arcangel/js-sdk@latest @arcangel/types@latest
+```
+
+Then, create a file that initializes the JS SDK client. For example, create the file `src/lib/sdk.ts` with the following content:
+
+```ts title="src/lib/sdk.ts"
+import Arcangel from "@arcangel/js-sdk"
+
+let ARCANGEL_BACKEND_URL = "http://localhost:9000"
+
+if (process.env.NEXT_PUBLIC_ARCANGEL_BACKEND_URL) {
+  ARCANGEL_BACKEND_URL = process.env.NEXT_PUBLIC_ARCANGEL_BACKEND_URL
+}
+
+export const sdk = new Arcangel({
+  baseUrl: ARCANGEL_BACKEND_URL,
+  debug: process.env.NODE_ENV === "development",
+  publishableKey: process.env.NEXT_PUBLIC_ARCANGEL_PUBLISHABLE_KEY,
+})
+```
+
+Where:
+
+- `NEXT_PUBLIC_ARCANGEL_BACKEND_URL` is the URL of your Arcangel application. Based on your storefront framework, make sure the environment variable is accessible in the browser. For example, in Next.js, prefix the variable name with `NEXT_PUBLIC_`.
+- `NEXT_PUBLIC_ARCANGEL_PUBLISHABLE_KEY` is the publishable API key of your storefront. Learn more in the [Publishable API Keys](../publishable-api-keys/page.mdx) guide.
+
+You can then import the `sdk` instance from `src/lib/sdk.ts` and use it to send requests to the Arcangel application. For example:
+
+```ts
+import { sdk } from "@/lib/sdk"
+
+sdk.store.product.list()
+.then(({ products }) => {
+  console.log(products)
+})
+```
+
+Refer to the [JS SDK reference](../../js-sdk/page.mdx) to learn more about using the SDK to interact with the Arcangel application.
+
+---
+
+## Configure Store CORS in Arcangel
+
+The Arcangel application’s API routes are guarded by a CORS middleware. Make sure to set the `storeCors` property of the `http` configuration in `arcangel-config.ts` to the storefront’s URL.
+
+For example:
+
+```ts title="arcangel-config.ts" badgeLabel="Arcangel Application" badgeColor="green"
+module.exports = defineConfig({
+  projectConfig: {
+    http: {
+      storeCors: "http://localhost:3000,http://localhost:8000",
+      // ...
+    },
+  },
+  // ...
+})
+```
+
+Refer to the [Arcangel configuration](!docs!/learn/configurations/arcangel-config#httpstorecors) guide to learn more about configuring CORS in the Arcangel application.

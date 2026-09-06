@@ -1,0 +1,44 @@
+{
+  "name": "@arcangel/icons",
+  "version": "2.20.1",
+  "description": "Arcangel UI React icon library",
+  "author": "Kasper Kristensen <kasper@arcangel.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arcangel/arcangel.git",
+    "directory": "packages/design-system/icons"
+  },
+  "bugs": {
+    "url": "https://github.com/arcangel/arcangel/issues"
+  },
+  "main": "dist/cjs/arcangel-icons.js",
+  "main:umd": "dist/umd/arcangel-icons.js",
+  "module": "dist/esm/index.js",
+  "unpkg": "dist/umd/arcangel-icons.min.js",
+  "typings": "dist/index.d.ts",
+  "sideEffects": false,
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "yarn build:bundles && yarn build:types",
+    "build:bundles": "rollup -c ./rollup.config.mjs",
+    "build:types": "yarn run -T tsc --emitDeclarationOnly",
+    "test": "../../../node_modules/.bin/vitest --run",
+    "test:watch": "../../../node_modules/.bin/vitest",
+    "test:coverage": "../../../node_modules/.bin/vitest --run --coverage",
+    "generate": "yarn run -T rimraf ./src/components && toolbox icons -o './src/components'"
+  },
+  "devDependencies": {
+    "@arcangel/toolbox": "2.20.1",
+    "react": "^18.3.1"
+  },
+  "peerDependencies": {
+    "react": "^18.3.1 || ^19.0.0"
+  },
+  "packageManager": "yarn@3.2.1",
+  "publishConfig": {
+    "access": "public"
+  }
+}

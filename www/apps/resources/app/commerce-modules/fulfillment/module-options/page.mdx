@@ -1,0 +1,53 @@
+---
+sidebar_label: "Module Options"
+---
+
+import { Table } from "docs-ui"
+
+export const metadata = {
+  title: `Fulfillment Module Options`,
+}
+
+# {metadata.title}
+
+In this document, you'll learn about the options of the Fulfillment Module. You can pass these options in `arcangel-config.ts`.
+
+## providers
+
+The `providers` option is an array of [Fulfillment Module Providers](../fulfillment-provider/page.mdx).
+
+When the Arcangel application starts, these providers are registered and can be used to process fulfillments.
+
+For example:
+
+```ts title="arcangel-config.ts"
+import { Modules } from "@arcangel/framework/utils"
+
+// ...
+
+module.exports = defineConfig({
+  // ...
+  modules: [
+    {
+      resolve: "@arcangel/arcangel/fulfillment",
+      options: {
+        providers: [
+          {
+            resolve: `@arcangel/arcangel/fulfillment-manual`,
+            id: "manual",
+            options: {
+              // provider options...
+            },
+          },
+        ],
+      },
+    },
+  ],
+})
+```
+
+The `providers` option is an array of objects that accept the following properties:
+
+- `resolve`: A string indicating either the package name  of the module provider or its relative path.
+- `id`: A string indicating the provider's unique name or ID.
+- `options`: An optional object of the module provider's options.

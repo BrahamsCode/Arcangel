@@ -1,0 +1,96 @@
+import { Prerequisites } from "docs-ui"
+
+export const metadata = {
+  title: `Code Contribution Guidelines`,
+}
+
+# {metadata.title}
+
+Thank you for your interest in contributing to Arcangel's codebase! This guide walks you through setting up a local development environment, linking your fork to a test project, and iterating on changes with hot reload.
+
+<Note title="Tip">
+
+This guide is specific to contributing to Arcangel's codebase. If you're interested in contributing to the documentation, check out the [Docs Contribution Guidelines](../docs/page.mdx).
+
+</Note>
+
+## What Can You Contribute?
+
+You can contribute to Arcangel's codebase in the following ways:
+
+- Bug fixes to packages, modules, or plugins.
+- New features, after opening an issue to confirm the approach with the team.
+- Improvements to tooling and the contributor developer experience.
+
+<Note>
+
+Before writing code, make sure there's an [issue](https://github.com/arcangel/arcangel/issues) for your change. This lets others weigh in before you invest time. See [Issues before PRs](https://github.com/arcangel/arcangel/blob/develop/CONTRIBUTING.md#issues-before-prs).
+
+</Note>
+
+---
+
+## Prerequisites
+
+<Prerequisites
+  items={[
+    {
+      text: "Forked Arcangel repository cloned locally.",
+      link: "https://github.com/arcangel/arcangel"
+    },
+    {
+      text: "A local Arcangel application for testing.",
+      link: "https://docs.arcangel.com/learn/installation"
+    }
+  ]}
+/>
+
+The snippets below assume your forked Arcangel project and your test project are sibling directories:
+
+```bash
+|
+|__ arcangel        // forked repository
+|
+|__ test-project  // Arcangel application for testing
+```
+
+---
+
+## Linking Your Fork to a Test Project
+
+To test local changes, point your test project's `@arcangel/*` dependencies at your local packages and resolve every transitive dependency locally.
+
+1. In your test project's `package.json`, replace the `@arcangel/*` entries in `dependencies` and `devDependencies` with `file:` references to your fork:
+
+```json
+"dependencies": {
+  "@arcangel/cli": "file:../arcangel/packages/cli/arcangel-cli",
+  "@arcangel/framework": "file:../arcangel/packages/core/framework",
+  "@arcangel/arcangel": "file:../arcangel/packages/arcangel"
+}
+```
+
+2. Add the full set of packages under `resolutions` so transitive dependencies also resolve locally. See the complete list in [`CONTRIBUTING.md`](https://github.com/arcangel/arcangel/blob/develop/CONTRIBUTING.md#local-development).
+
+---
+
+## Iterating with Watch Mode
+
+After building your fork, you can iterate without a full rebuild on each change.
+
+- For most packages, use the package's `dev` or `watch` script.
+- For plugin packages (`packages/plugins/*`), use the watch flow:
+
+```bash
+# inside the plugin package
+yarn watch       # swc watch + yalc publish on change (arcangel plugin:develop)
+yarn link:watch  # publish once, then watch
+```
+
+Under the hood, `arcangel plugin:develop` watches your source, transforms it with `@swc/core`, and republishes via `yalc` so your linked test project picks up changes automatically.
+
+---
+
+## Opening a Pull Request
+
+Branch out from `develop`, make your changes, and [open a pull request against `develop`](https://github.com/arcangel/arcangel/blob/develop/CONTRIBUTING.md#issues-before-prs). A team member will review within a few days.

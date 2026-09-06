@@ -1,0 +1,25 @@
+{
+  "name": "@arcangel/admin-shared",
+  "description": "Shared code for Arcangel admin packages.",
+  "version": "2.20.1",
+  "author": "Kasper Kristensen <kasper@arcangel.com>",
+  "types": "dist/index.d.ts",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arcangel/arcangel.git",
+    "directory": "packages/admin/admin-shared"
+  },
+  "bugs": {
+    "url": "https://github.com/arcangel/arcangel/issues"
+  },
+  "files": [
+    "dist",
+    "package.json"
+  ],
+  "scripts": {
+    "build": "yarn run -T tsup"
+  },
+  "packageManager": "yarn@3.2.1"
+}

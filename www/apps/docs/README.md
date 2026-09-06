@@ -1,0 +1,1 @@
+Directory of old Arcangel documentation. You can find it on the [v1.x branch](https://github.com/arcangel/arcangel/tree/v1.x)

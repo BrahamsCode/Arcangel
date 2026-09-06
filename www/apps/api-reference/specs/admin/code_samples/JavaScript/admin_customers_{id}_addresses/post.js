@@ -1,0 +1,19 @@
+import Arcangel from "@arcangel/js-sdk"
+
+export const sdk = new Arcangel({
+  baseUrl: import.meta.env.VITE_BACKEND_URL || "/",
+  debug: import.meta.env.DEV,
+  auth: {
+    type: "session",
+  },
+})
+
+sdk.admin.customer.createAddress("cus_123", {
+  address_1: "123 Main St",
+  city: "Anytown",
+  country_code: "US",
+  postal_code: "12345"
+})
+.then(({ customer }) => {
+  console.log(customer)
+})

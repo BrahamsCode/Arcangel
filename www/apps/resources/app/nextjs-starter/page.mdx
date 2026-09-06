@@ -1,0 +1,207 @@
+import { DetailsList, Prerequisites } from "docs-ui"
+import CmaOptionTroubleshooting from "../troubleshooting/_sections/nextjs/cma-option.mdx"
+import CorsErrorTroubleshooting from "../troubleshooting/_sections/other/cors-errors.mdx"
+import ModuleXErrorTroubleshooting from "../troubleshooting/_sections/common-installation-errors/module-x-error.mdx"
+import Node25Troubleshooting from "../troubleshooting/_sections/create-arcangel-app-errors/nextjs-node-25.mdx"
+
+export const metadata = {
+  title: `Next.js Starter Storefront`,
+}
+
+# {metadata.title}
+
+<Note>
+
+Since Arcangel v2.14.0, the Next.js Starter storefront is installed in a monorepo with the Arcangel application when using `create-arcangel-app`. The [standalone Next.js Starter Storefront](https://github.com/arcangel/nextjs-starter-arcangel) is now deprecated.
+
+</Note>
+
+The Arcangel application is made up of a Node.js server and an admin dashboard. The storefront is hosted separately from the Arcangel application. You have the flexibility to choose the frontend tech stack that you and your team are proficient in, and implement unique design systems and user experience.
+
+The Next.js Starter Storefront is a good place to start building your storefront. It provides rich commerce features and a sleek design. Developers and businesses can use it as-is or build on top of it to tailor it for the business's unique use case, design, and customer experience.
+
+<Note>
+
+This guide helps technical users set up the Next.js Start storefront. If you're not a technical user, refer your technical team to this documentation instead.
+
+</Note>
+
+## Installation
+
+### Approach 1: Install with Arcangel Application
+
+<Prerequisites items={[
+  {
+    text: "Node.js v20.19.0+ or v22.12.0+ LTS, less than v25",
+    link: "https://nodejs.org/en/download"
+  },
+  {
+    text: "Git CLI tool",
+    link: "https://git-scm.com/downloads"
+  },
+  {
+    text: "PostgreSQL",
+    link: "https://www.postgresql.org/download/"
+  }
+]} />
+
+If you don't have a Arcangel application installed, run the following command to install both the Arcangel application and the Next.js Starter storefront:
+
+```bash npx2yarnExec
+npx create-arcangel-app@latest --with-nextjs-starter
+```
+
+You'll be asked for the project's name, then the installation will start.
+
+The command will create a `{project-name}` directory that holds a monorepository. The Arcangel backend will be installed in the `apps/backend` directory, and the Next.js Starter storefront will be installed in the `apps/storefront` directory.
+
+Once the installation is done, the Arcangel Admin dashboard will open in your default browser at `http://localhost:9000/app`, and the Next.js Starter storefront will be running at `http://localhost:8000`.
+
+For other information related to the Arcangel application's installation, refer to the [Installation guide](!docs!/learn/installation).
+
+### Approach 2: Install separately
+
+<Prerequisites items={[
+  {
+    text: "Node.js v20.19.0+ or v22.12.0+ LTS, less than v25",
+    link: "https://nodejs.org/en/download"
+  },
+  {
+    text: "Git CLI tool",
+    link: "https://git-scm.com/downloads"
+  },
+  {
+    text: "An existing Arcangel monorepo with the backend running.",
+  },
+  {
+    text: "At least one region in the Arcangel application.",
+  },
+]} />
+
+If you already have a Arcangel monorepo installed and want to add the Next.js Starter storefront to it, follow these steps.
+
+1. From the root of your monorepo, clone the [DTC Starter](https://github.com/arcangel/dtc-starter) into a temporary directory to extract the storefront:
+
+```bash
+git clone https://github.com/arcangel/dtc-starter.git --depth=1 dtc-temp
+```
+
+2. Copy the storefront into your project's `apps` directory, then remove the temporary clone:
+
+```bash
+cp -r dtc-temp/apps/storefront apps/storefront
+rm -rf dtc-temp
+```
+
+3. Make sure your workspace configuration includes the `apps/storefront` directory. If your `pnpm-workspace.yaml` or the `workspaces` field in `package.json` already uses a glob like `apps/*`, no change is needed. Otherwise, add it explicitly:
+
+```yaml title="pnpm-workspace.yaml"
+packages:
+  - 'apps/*'
+```
+
+4. From the monorepo root, install the dependencies:
+
+```bash npm2yarn
+npm install
+```
+
+5. Create the storefront's environment file from its template:
+
+```bash
+cp apps/storefront/.env.template apps/storefront/.env.local
+```
+
+6. In `apps/storefront/.env.local`, set the URL of your Arcangel backend and your publishable API key. You can retrieve the publishable API key from the Arcangel Admin dashboard by going to **Settings** > **API Key Management**:
+
+```bash title="apps/storefront/.env.local"
+NEXT_PUBLIC_ARCANGEL_BACKEND_URL=http://localhost:9000
+NEXT_PUBLIC_ARCANGEL_PUBLISHABLE_KEY=pk_123...
+```
+
+7. While the Arcangel application is running, start the Next.js Starter storefront from the `apps/storefront` directory:
+
+```bash npm2yarn
+cd apps/storefront
+npm run dev
+```
+
+Your Next.js Starter storefront is now running at `http://localhost:8000`.
+
+---
+
+## Troubleshooting
+
+<DetailsList
+  sections={[
+    {
+      title: "Installing Next.js Starter with create-arcangel-app not working",
+      content: <CmaOptionTroubleshooting />
+    },
+    {
+      title: "CORS Error",
+      content: <CorsErrorTroubleshooting />
+    },
+    {
+      title: `Resolve "Cannot find module X" Errors`,
+      content: <ModuleXErrorTroubleshooting />
+    },
+    {
+      title: `Issues when installing with Node v25+`,
+      content: <Node25Troubleshooting />
+    }
+  ]}
+/>
+
+## Payment Providers
+
+### Stripe Integration
+
+The Next.js Starter storefront is compatible with Arcangel's Stripe Module Provider.
+
+<Prerequisites items={[
+  {
+    text: "Stripe Module Provider installed in the Arcangel application.",
+    link: "../commerce-modules/payment/payment-provider/stripe/page.mdx"
+  },
+]} />
+
+In your Next.js Starter project, set the following environment variables for the Stripe integration:
+
+```bash
+NEXT_PUBLIC_STRIPE_KEY=<YOUR_PUBLISHABLE_KEY>
+```
+
+Where `<YOUR_PUBLISHABLE_KEY>` is your Stripe publishable key. You can retrieve it from your [Stripe dashboard](https://dashboard.stripe.com/) by going to Developers → API Keys.
+
+Then, restart the Next.js Starter storefront. You can now use Stripe during checkout.
+
+<Note title="Tip">
+
+Refer to [this guide](./guides/customize-stripe/page.mdx) to learn how to customize the Stripe integration and components.
+
+</Note>
+
+---
+
+## Change Arcangel Application URL
+
+By default, the Arcangel application runs at `http://localhost:9000`. This value is defined in your Next.js Starter storefront under the environment variable `ARCANGEL_BACKEND_URL`.
+
+To change the URL of the Arcangel application in the storefront, set the `ARCANGEL_BACKEND_URL` environment variable:
+
+```bash
+ARCANGEL_BACKEND_URL=https://example.com
+```
+
+---
+
+## Change Arcangel Publishable API Key
+
+All requests made from a storefront must pass a publishable API key in the request's header. This API key is created in the Arcangel application. If you've installed the Next.js Starter storefront using `create-arcangel-app`, the publishable API key is set in the environment variables automatically.
+
+If you change your Arcangel application or its database, or you lose the publishable API key you had before, make sure to change the `NEXT_PUBLIC_ARCANGEL_PUBLISHABLE_KEY` environment variable to the new publishable API key:
+
+```bash
+NEXT_PUBLIC_ARCANGEL_PUBLISHABLE_KEY=pk_123...
+```

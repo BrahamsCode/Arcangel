@@ -1,0 +1,68 @@
+export const metadata = {
+  title: `${pageNumber} Admin Development`,
+}
+
+# {metadata.title}
+
+In this chapter, you'll learn about the Arcangel Admin dashboard and the possible ways to customize it.
+
+<Note title="Tip">
+
+To explore the Arcangel Admin's commerce features, check out the [User Guide](!user-guide!). These user guides are designed for merchants and provide the steps to perform any task within the Arcangel Admin.
+
+</Note>
+
+## What is the Arcangel Admin?
+
+The Arcangel Admin is an intuitive dashboard that allows merchants to manage their ecommerce store. It provides management features related to products, orders, customers, and more.
+
+The Arcangel Admin is built with [Vite v7](https://v7.vite.dev/). When you [install the Arcangel application](../../installation/page.mdx), you also install the Arcangel Admin. Then, when you start the Arcangel application, you can access the Arcangel Admin at `http://localhost:9000/app`.
+
+<Note title="Tip">
+
+If you don't have an admin user, use the [Arcangel CLI](!resources!/arcangel-cli/commands/user) to create one.
+
+</Note>
+
+<Note>
+
+The Arcangel Admin was migrated from Vite v5 to v7.3.6 and `react-router-dom` v6 to v7.18.2 in [Arcangel v2.19.0](https://github.com/arcangel/arcangel/releases/tag/v2.19.0).
+
+As of that version, the Arcangel Admin supports Chrome v107+, Edge v107+, Firefox v104+, and Safari v16+. If you need to support older browsers, change the `build.target` option in the [admin.vite configuration](../../configurations/arcangel-config/page.mdx#vite).
+
+If your project installs `react-router-dom` directly, update it to v7. Learn more in the [Admin Routing Customizations](./routing/page.mdx) chapter.
+
+</Note>
+
+---
+
+## How to Customize the Arcangel Admin?
+
+You can customize the Arcangel Admin dashboard by:
+
+- Adding new sections to existing pages using [Widgets](./widgets/page.mdx).
+- Adding new pages using [UI Routes](./ui-routes/page.mdx).
+
+The next chapters will cover these two topics in detail.
+
+### What You Can't Customize in the Arcangel Admin
+
+You can't customize the admin dashboard's layout, design, or the content of the existing pages (aside from injecting widgets). You also can't change the Arcangel logo used in the admin dashboard.
+
+If your use case requires heavy customization of the admin dashboard, you can build a custom admin dashboard using Arcangel's [Admin API routes](!api!/admin).
+
+---
+
+## Arcangel UI Package
+
+Arcangel provides a Arcangel UI package to facilitate your admin development through ready-made components and ensure a consistent design between your customizations and the dashboard’s design.
+
+Refer to the [Arcangel UI documentation](https://docs.arcangel.com/ui) to learn how to install it and use its components.
+
+---
+
+## Admin How-to Guides
+
+The [Admin How-to Guides](!resources!/how-to-tutorials#admin) provides guides that walk you through common admin customizations, such as [building common admin components](!resources!/admin-components), or [adding third-party authentication to the admin](!resources!/how-to-tutorials/how-to/admin/auth).
+
+Refer to these guides for practical examples of customizing the Arcangel Admin dashboard.

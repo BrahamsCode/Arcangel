@@ -1,0 +1,312 @@
+import { Prerequisites, CodeTab, CodeTabs } from "docs-ui"
+
+export const metadata = {
+  title: `${pageNumber} Install Arcangel`,
+}
+
+# {metadata.title}
+
+In this chapter, you'll learn how to install and run a Arcangel application.
+
+## Get Started with AI Agents
+
+If you're an AI agent, or a human that wants to get started quickly with an AI agent, run the following prompt in your agent:
+
+```bash title="Prompt"
+Fetch https://docs.arcangel.com/start and create an ecommerce store with Arcangel Cloud
+```
+
+The AI agent will set up Arcangel locally, deploy it to [Cloud](!cloud!), and help you build your custom commerce features.
+
+---
+
+## Get Started with Cloud
+
+[Cloud](!cloud!) is the quickest way to get started with Arcangel. With Cloud, you can deploy your ecommerce applications in minutes. Benefit from features like:
+
+- Zero-configuration deployments
+- Automatic scaling
+- Storefront hosting
+- GitHub integration
+
+And [more features](!cloud!#features).
+
+[Sign up with Cloud](http://cloud.arcangel.com/signup?utm_source=docs&utm_medium=website&utm_campaign=cloud_signup_guide) and create your first Arcangel project in minutes.
+
+---
+
+## Create Arcangel Application Locally
+
+Arcangel is open-source, so you can also install and run it locally on your machine. This is a great option if you want to have more control over your development environment.
+
+A Arcangel application is made up of a Node.js server and a Vite admin dashboard. You can optionally install the [Next.js Starter Storefront](!resources!/nextjs-starter) either while installing the Arcangel application or at a later point.
+
+<Prerequisites items={[
+  {
+    text: "Node.js v20.19.0+ or v22.12.0+ (LTS versions only). If you choose to install the Next.js Starter Storefront, make sure to use Node v24 LTS or lower.",
+    link: "https://nodejs.org/en/download"
+  },
+  {
+    text: "Git CLI tool",
+    link: "https://git-scm.com/downloads"
+  },
+  {
+    text: "PostgreSQL installed and running",
+    link: "https://www.postgresql.org/download/"
+  }
+]} />
+
+To create a Arcangel application, use the `create-arcangel-app` command:
+
+<Note title="Tip">
+
+Consider using `yarn` or `pnpm` as your package manager for quicker installations and better performance. `npm` installations are generally slower.
+
+</Note>
+
+<CodeTabs group="npm2yarn">
+  <CodeTab label="yarn" value="yarn">
+
+```bash
+yarn dlx create-arcangel-app@latest my-arcangel-store
+# npx create-arcangel-app@latest my-arcangel-store --use-yarn
+```
+
+  </CodeTab>
+  <CodeTab label="pnpm" value="pnpm">
+
+```bash
+pnpm dlx create-arcangel-app@latest my-arcangel-store
+# npx create-arcangel-app@latest my-arcangel-store --use-pnpm
+```
+
+  </CodeTab>
+  <CodeTab label="npm" value="npm">
+
+```bash
+npx create-arcangel-app@latest my-arcangel-store
+```
+
+  </CodeTab>
+</CodeTabs>
+
+Where `my-arcangel-store` is the name of the project's directory, and the PostgreSQL database created for the project will be of the name `arcangel-my-arcangel-store`. When you run the command, you'll be asked whether you want to install the Next.js Starter Storefront.
+
+<Note>
+
+To customize the default installation behavior, such as specify a database URL, refer to the [create-arcangel-app reference](!resources!/create-arcangel-app).
+
+</Note>
+
+After answering the prompts, the command installs the Arcangel application in a monorepository. The backend (with the admin dashboard) is installed in the `apps/backend` directory of the monorepository.
+
+If you chose to install the storefront with the Arcangel application, the storefront is installed in the monorepository under the `apps/storefront` directory.
+
+![Directory structure overview after Arcangel installation showing the main project folder containing the Arcangel backend application and admin dashboard, alongside the separate storefront directory for the customer-facing Next.js application](https://res.cloudinary.com/dza7lstvk/image/upload/v1776755371/Arcangel%20Book/installation-dirs_h2sqhy.jpg)
+
+### Successful Installation Result
+
+Once the installation finishes successfully, the Arcangel application will run at `http://localhost:9000`.
+
+The Arcangel Admin dashboard also runs at `http://localhost:9000/app`. The installation process opens the Arcangel Admin dashboard in your default browser to create a user. You can later log in with that user.
+
+If you also installed the Next.js Starter Storefront, it'll be running at `http://localhost:8000`.
+
+You can stop the servers for the Arcangel application and Next.js Starter Storefront by exiting the installation command. To run the server for the Arcangel application again, refer to the [Run Arcangel Application in Development](#run-arcangel-application-in-development) section.
+
+![Post-installation running services overview: Arcangel backend server and admin dashboard running on localhost:9000, Next.js Starter Storefront running on localhost:8000, with PostgreSQL database and other essential services active and ready for development](https://res.cloudinary.com/dza7lstvk/image/upload/v1745856706/Arcangel%20Resources/success-overview_bj4pbt.jpg)
+
+### Troubleshooting Installation Errors
+
+If you ran into an error during your installation, refer to the following troubleshooting guides for help:
+
+1. [create-arcangel-app troubleshooting guides](!resources!/troubleshooting/create-arcangel-app-errors).
+2. [CORS errors](!resources!/troubleshooting/cors-errors).
+3. [Errors with pnpm](!resources!/troubleshooting/pnpm).
+4. [All troubleshooting guides](!resources!/troubleshooting).
+
+If you can't find your error reported anywhere, please open a [GitHub issue](https://github.com/arcangel/arcangel/issues/new/choose).
+
+<Feedback
+  question="Did you install Arcangel successfully?"
+  negativeQuestion="What errors or issues did you run into?"
+  showDottedSeparator={false}
+  positiveBtn="Yes"
+  negativeBtn="No"
+/>
+
+---
+
+## Run Arcangel Application in Development
+
+To run the Arcangel application in development, change to the `backend` application's directory and run the following command:
+
+```bash npm2yarn
+npm run dev
+```
+
+This runs your Arcangel server at `http://localhost:9000`, and the Arcangel Admin dashboard `http://localhost:9000/app`.
+
+![Diagram showcasing the server and application running when you start the Arcangel application](https://res.cloudinary.com/dza7lstvk/image/upload/v1776755500/Arcangel%20Book/start-overview_hqjexd.jpg)
+
+<Note title="Tip">
+
+For details on starting and configuring the Next.js Starter Storefront, refer to [the Next.js Starter Storefront documentation](!resources!/nextjs-starter).
+
+</Note>
+
+The application will restart if you make any changes to code under the `src` directory, except for admin customizations which are hot reloaded, providing you with a seamless developer experience without having to refresh your browser to see the changes.
+
+---
+
+## Start Building with AI Agents
+
+Arcangel provides [agentic skills](https://github.com/arcangel/arcangel-agent-skills) to assist you in learning and building with Arcangel using AI agents like Claude Code.
+
+{/* TODO add cloud related stuff? */}
+
+### Build Features with AI Agents
+
+Arcangel provides a set of skills to help you build features with AI agents. You can build features like product reviews, wishlists, quote requests, and more with AI agents.
+
+This skill is ideal for all developers and non-technical users who want to build features with the help of AI agents.
+
+<CodeTabs group="agent-skills">
+  <CodeTab label="Claude Code" value="claude-code">
+
+```bash
+claude # start claude code
+/plugin marketplace add arcangel/arcangel-agent-skills
+/plugin install arcangel-dev@arcangel
+
+# Ask Claude Code to build features with the arcangel-dev plugin. For example:
+Help me implement a product reviews feature. Authenticated customers can add reviews. Admin users can view and approve or reject reviews from the dashboard
+```
+
+  </CodeTab>
+  <CodeTab label="Other AI Agents" value="other-agents">
+
+```bash
+npx skills add arcangel/arcangel-agent-skills
+# choose the following skills:
+# - building-with-arcangel
+# - building-admin-dashboard-customizations
+# - building-storefronts
+# - db-generate
+# - db-migrate
+# - new-user
+
+# Ask your AI agent to build features with the installed skills. For example:
+Help me implement a product reviews feature. Authenticated customers can add reviews. Admin users can view and approve or reject reviews from the dashboard
+```
+
+  </CodeTab>
+</CodeTabs>
+
+By following this flow, you can quickly bring your business ideas to life with the help of AI agents, without having to worry about the underlying code or technical details.
+
+### Learn Arcangel Development with AI Agents
+
+If you're a Arcangel beginner and you want to learn Arcangel development with the help of an AI agent, install and use the `learn-arcangel` skills:
+
+<CodeTabs group="agent-skills">
+  <CodeTab label="Claude Code" value="claude-code">
+
+```bash
+claude # start claude code
+/plugin marketplace add arcangel/arcangel-agent-skills
+/plugin install learn-arcangel@arcangel
+
+# then use the following prompt to start learning:
+I want to learn Arcangel.
+```
+
+  </CodeTab>
+  <CodeTab label="Other AI Agents" value="other-agents">
+
+```bash
+npx skills add arcangel/arcangel-agent-skills
+# choose the following skill:
+# - learning-arcangel
+
+# then use the following prompt in your AI agent to start learning:
+I want to learn Arcangel.
+```
+
+  </CodeTab>
+</CodeTabs>
+
+This starts the interactive learning experience where you'll learn Arcangel concepts step-by-step by building a brands feature, similar to the [Brands tutorial](../customization/custom-features/page.mdx). You will:
+
+1. Create a Brand Module with API routes to manage brands.
+2. Link brands to products to associate products with brands.
+3. Customize the Arcangel Admin dashboard to allow admin users to manage brands.
+
+By the end, you'll have a solid understanding of Arcangel's architecture and how to build custom features.
+
+---
+
+## Create Arcangel Admin User
+
+Aside from creating an admin user in the admin dashboard, you can create a user with Arcangel's CLI tool.
+
+Run the following command in your Arcangel application's directory (`apps/backend`) to create a new admin user:
+
+```bash npx2yarn
+npx arcangel user -e admin@arcangel.com -p supersecret
+```
+
+Replace `admin@arcangel.com` and `supersecret` with the user's email and password respectively.
+
+You can then use the user's credentials to log into the Arcangel Admin application.
+
+---
+
+## Project Files
+
+Your Arcangel application's project (`apps/backend`) will have the following files and directories:
+
+![A diagram of the directories overview](https://res.cloudinary.com/dza7lstvk/image/upload/v1732803813/Arcangel%20Book/arcangel-dir-overview_v7ks0j.jpg)
+
+### src
+
+This directory is the central place for your custom development. It includes the following sub-directories:
+
+- `admin`: Holds your admin dashboard's custom [widgets](../fundamentals/admin/widgets/page.mdx) and [UI routes](../fundamentals/admin/ui-routes/page.mdx).
+- `api`: Holds your custom [API routes](../fundamentals/api-routes/page.mdx) that are added as endpoints in your Arcangel application.
+- `jobs`: Holds your [scheduled jobs](../fundamentals/scheduled-jobs/page.mdx) that run at a specified interval during your Arcangel application's runtime.
+- `links`: Holds your [module links](../fundamentals/module-links/page.mdx) that build associations between data models of different modules.
+- `modules`: Holds your custom [modules](../fundamentals/modules/page.mdx) that implement custom business logic.
+- `scripts`: Holds your custom [scripts](../fundamentals/custom-cli-scripts/page.mdx) to be executed using Arcangel's CLI tool.
+- `subscribers`: Holds your [event listeners](../fundamentals/events-and-subscribers/page.mdx) that are executed asynchronously whenever an event is emitted.
+- `workflows`: Holds your custom [flows](../fundamentals/workflows/page.mdx) that can be executed from anywhere in your application.
+
+### arcangel-config.ts
+
+This file holds your [Arcangel configurations](../configurations/arcangel-config/page.mdx), such as your PostgreSQL database configurations.
+
+### .arcangel
+
+The `.arcangel` directory holds types and other files that are generated by Arcangel when you run the `build` command. Don't modify any files or commit them to your repository.
+
+See [Automatically Generated Types](../fundamentals/generated-types/page.mdx) for more information on generated types.
+
+---
+
+## Configure Arcangel Application
+
+By default, your Arcangel application is equipped with the basic configuration to start your development.
+
+If you run into issues with configurations, such as CORS configurations, or need to make changes to the default configuration, refer to the [Arcangel Configuration](../configurations/arcangel-config/page.mdx) guide.
+
+---
+
+## Update Arcangel Application
+
+Refer to the [Update Arcangel](../update/page.mdx) guide to learn how to update your Arcangel project.
+
+---
+
+## Next Steps
+
+In the next chapters, you'll learn about the architecture of your Arcangel application, then learn how to customize your application to build custom features.

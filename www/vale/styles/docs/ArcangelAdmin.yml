@@ -1,0 +1,10 @@
+extends: substitution
+message: "Consider using '%s' instead of '%s'."
+level: error
+ignorecase: false
+action:
+  name: replace
+swap:
+  arcangel admin: Arcangel Admin
+  Arcangel admin: Arcangel Admin
+  arcangel Admin: Arcangel Admin

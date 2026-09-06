@@ -1,0 +1,121 @@
+// @vitest-environment jsdom
+import { renderHook } from "@testing-library/react"
+import { createElement } from "react"
+import { beforeEach, describe, expect, it, vi } from "vitest"
+
+const useMatchesMock = vi.fn()
+
+vi.mock("react-router-dom", () => ({
+  useMatches: () => useMatchesMock(),
+}))
+
+import { useDocumentTitle } from "../use-document-title"
+
+describe("useDocumentTitle", () => {
+  beforeEach(() => {
+    useMatchesMock.mockReset()
+  })
+
+  it("returns the default title when no match yields a title", () => {
+    useMatchesMock.mockReturnValue([
+      { id: "root", pathname: "/", params: {}, data: undefined, handle: {} },
+    ])
+
+    const { result } = renderHook(() => useDocumentTitle())
+
+    expect(result.current).toBe("Arcangel")
+  })
+
+  it("appends the page title from a string breadcrumb", () => {
+    useMatchesMock.mockReturnValue([
+      {
+        id: "products",
+        pathname: "/products",
+        params: {},
+        loaderData: undefined,
+        handle: { breadcrumb: () => "Products" },
+      },
+    ])
+
+    const { result } = renderHook(() => useDocumentTitle())
+
+    expect(result.current).toBe("Products - Arcangel")
+  })
+
+  it("uses a route's seo resolver for detail pages", () => {
+    useMatchesMock.mockReturnValue([
+      {
+        id: "products",
+        pathname: "/products",
+        params: {},
+        loaderData: undefined,
+        handle: { breadcrumb: () => "Products" },
+      },
+      {
+        id: "product-detail",
+        pathname: "/products/prod_1",
+        params: { id: "prod_1" },
+        loaderData: { product: { title: "Arcangel Sweatpants" } },
+        handle: {
+          breadcrumb: () => createElement("span", null, "Hidden"),
+          seo: (match: { loaderData: { product: { title: string } } }) => ({
+            title: match.loaderData?.product?.title,
+          }),
+        },
+      },
+    ])
+
+    const { result } = renderHook(() => useDocumentTitle())
+
+    expect(result.current).toBe("Arcangel Sweatpants - Arcangel")
+  })
+
+  it("uses the most specific (last) match that yields a title", () => {
+    useMatchesMock.mockReturnValue([
+      {
+        id: "products",
+        pathname: "/products",
+        params: {},
+        loaderData: undefined,
+        handle: { breadcrumb: () => "Products" },
+      },
+      {
+        id: "product-detail",
+        pathname: "/products/prod_1",
+        params: { id: "prod_1" },
+        loaderData: { product: { title: "Arcangel Sweatpants" } },
+        handle: { seo: () => ({ title: "Arcangel Sweatpants" }) },
+      },
+    ])
+
+    const { result } = renderHook(() => useDocumentTitle())
+
+    expect(result.current).toBe("Arcangel Sweatpants - Arcangel")
+  })
+
+  it("skips a detail match without a title and uses the parent breadcrumb", () => {
+    useMatchesMock.mockReturnValue([
+      {
+        id: "products",
+        pathname: "/products",
+        params: {},
+        loaderData: undefined,
+        handle: { breadcrumb: () => "Products" },
+      },
+      {
+        id: "product-detail",
+        pathname: "/products/prod_1",
+        params: { id: "prod_1" },
+        loaderData: undefined,
+        handle: {
+          breadcrumb: () => createElement("span", null, "Hidden"),
+          seo: () => ({ title: undefined }),
+        },
+      },
+    ])
+
+    const { result } = renderHook(() => useDocumentTitle())
+
+    expect(result.current).toBe("Products - Arcangel")
+  })
+})

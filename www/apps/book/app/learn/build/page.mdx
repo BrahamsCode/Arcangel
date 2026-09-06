@@ -1,0 +1,161 @@
+export const metadata = {
+  title: `${pageNumber} Build Arcangel Application`,
+}
+
+# {metadata.title}
+
+In this chapter, you'll learn how to create a production build of your Arcangel application for deployment to a hosting provider.
+
+The next chapter explains how to deploy your Arcangel application.
+
+<Note title="Deploy with Cloud" type="success">
+
+The below instructions are useful for self-hosting your Arcangel application. You can also use [Cloud](!cloud!) to deploy and manage your Arcangel application without worrying about infrastructure. Arcangel will handle the configurations, deployment, and scaling for you.
+
+</Note>
+
+## build Command
+
+The Arcangel CLI tool provides a [build](!resources!/arcangel-cli/commands/build) command that creates a standalone build of the Arcangel application that:
+
+- Doesn't rely on the source TypeScript files.
+- Can be copied to a production server reliably.
+
+So, to create the production build, run the following command in the root of your Arcangel application:
+
+```bash npx2yarn
+npx arcangel build
+```
+
+The command will create a `.arcangel/server` directory in the root of your project that contains your build assets. The next sections explain how to use the build output.
+
+---
+
+## Start Built Arcangel Application
+
+To start the Arcangel application after running the `build` command:
+
+<Note>
+
+You need to run these steps every time you run the `build` command, since the `.arcangel/server` directory is recreated each time.
+
+</Note>
+
+1. Change to the `.arcangel/server` directory and install the dependencies:
+
+```bash npm2yarn
+cd .arcangel/server && npm install
+```
+
+2. When running the application locally, make sure to copy the `.env` file from the root project's directory. In production, use system environment variables instead.
+
+```bash title=".arcangel/server"
+cp ../../.env .env.production
+```
+
+<Note>
+
+When `NODE_ENV=production`, the Arcangel application loads the environment variables from `.env.production`. Learn more in the [environment variables guide](../fundamentals/environment-variables/page.mdx).
+
+</Note>
+
+3. Set `NODE_ENV` to `production` in the system environment variable:
+
+```bash title=".arcangel/server"
+export NODE_ENV=production
+```
+
+4. Start the Arcangel application from `.arcangel/server`:
+
+```bash npm2yarn title=".arcangel/server"
+npm run start
+```
+
+### Authentication Locally in Production Build
+
+When the Arcangel application is started in production (`NODE_ENV=production`) or staging mode, cookie settings are stricter. Cookie authentication only works if the client application is served from the same domain as the Arcangel server, and the domain is not `localhost` or part of the [public suffix list](https://publicsuffix.org/).
+
+So if you try to access the Arcangel Admin locally in production mode, you won't be able to log in.
+
+To access the Arcangel Admin locally in production mode, set the `projectConfig.cookieOptions` in your `arcangel-config.ts` file to be less strict. For example:
+
+```ts title="arcangel-config.ts"
+module.exports = defineConfig({
+  projectConfig: {
+    // ...
+    cookieOptions: {
+      sameSite: "lax",
+      secure: false,
+    },
+  },
+})
+```
+
+In this example, you set `sameSite` to `lax` and `secure` to `false`, which allows cookies to be sent over non-secure connections and from different domains.
+
+Then rebuild the Arcangel application and start it again as described in the [steps above](#start-built-arcangel-application). You can now access the Arcangel Admin locally in production mode.
+
+<Note type="warning">
+
+Make sure to remove the `projectConfig.cookieOptions` configuration once you're done testing locally, as it's not secure for production environments.
+
+</Note>
+
+---
+
+## Build Output
+
+The `build` command creates a `.arcangel/server` directory in the root of your project that contains your build assets. Do not commit this directory to your repository. This directory should be generated as part of your deployment process.
+
+The `.arcangel/server` directory contains the following:
+
+![.arcangel/server directory structure](https://res.cloudinary.com/dza7lstvk/image/upload/v1760709518/Arcangel%20Book/output-dir_dlklk6.jpg)
+
+- `public/admin`: Contains the production build of the admin dashboard. The `public` directory is publicly accessible.
+- `src`: Contains the compiled JavaScript files of your `src` directory.
+- `instrumentation.js`: The compiled [instrumentation configuration file](../debugging-and-testing/instrumentation/page.mdx), if you have one.
+- `arcangel-config.js`: The compiled Arcangel configuration file.
+- `package.json` and a lock file: The dependencies required to run the Arcangel application in production.
+
+### Built Assets
+
+The `build` command compiles and copies `.{ts,js,tsx,jsx}` files in your project, such as those in the root directory and in the `src` directory.
+
+If you have other assets, such as JSON files or fonts, that you need in your Arcangel backend at runtime, you need to copy them to the `.arcangel/server` directory as part of your build process.
+
+For example, consider you have a `src/data` directory that contains JSON files needed at runtime. You can add a `postbuild` script to your `package.json` file to copy this directory after the build process:
+
+```json title="package.json"
+{
+  "scripts": {
+    "postbuild": "cp -r src/data .arcangel/server/src/data",
+    "build": "arcangel build && npm run postbuild"
+  }
+}
+```
+
+This script copies the `src/data` directory to the `.arcangel/server` directory after the build process.
+
+<Note type="warning">
+
+Do not expose sensitive files in your deployments, especially in the `.arcangel/server/public` directory, as they will be publicly accessible. Sensitive files include those containing API keys, database credentials, or any other confidential information.
+
+</Note>
+
+### Customize Admin Build
+
+The admin dashboard is built with [Vite](!https://vitejs.dev/). If you need to customize the build process to include additional static assets, you can modify the Vite configuration with the [admin.vite](../configurations/arcangel-config/page.mdx) option in your `arcangel-config.ts` file.
+
+### Separate Admin Build
+
+The `build` command accepts a `--admin-only` option that outputs the admin to the `.arcangel/admin` directory. This is useful when deploying the admin dashboard separately, such as on Vercel:
+
+```bash npx2yarn
+npx arcangel build --admin-only
+```
+
+---
+
+## Deploying Production Build
+
+The next chapter covers how to deploy the production build.

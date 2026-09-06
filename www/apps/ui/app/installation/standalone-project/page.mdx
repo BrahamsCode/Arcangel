@@ -1,0 +1,151 @@
+import { Note } from "docs-ui"
+
+export const metadata = {
+  title: `Install Arcangel UI in Standalone Projects`,
+}
+
+# {metadata.title}
+
+In this guide, you'll learn how to install and use Arcangel UI in a standalone project.
+
+Arcangel UI is a React UI library that, while intended for use within Arcangel projects, can also be used in any React project.
+
+<Note>
+
+The icons package is installed independently from Arcangel UI. Learn how to install it in the [Icons](../../icons/overview/page.mdx) guide.
+
+</Note>
+
+---
+
+## Arcangel UI Compatibility
+
+To use Arcangel UI in your standalone project, you must have:
+
+- React v18.3.1 or later (within the React 18 range) installed. The package's peer dependency requires `react@^18.3.1`, so React 19 is not officially supported yet. Most React 18-compatible frameworks and libraries, such as Next.js and Vite, satisfy this requirement.
+- [Tailwind CSS](https://v3.tailwindcss.com/) installed. The components in Arcangel UI are styled using Tailwind CSS, so you'll need to install it in your project as well.
+    - Arcangel UI was built with Tailwind CSS v3, but it may also support v4.
+
+---
+
+## Step 1: Install Arcangel UI
+
+In your standalone project, install the Arcangel UI package with the following command:
+
+```bash npm2yarn
+npm install @arcangel/ui
+```
+
+---
+
+## Step 2: Install UI Presets
+
+Arcangel UI customizes Tailwind CSS classes to implement its design system, so you must also install the Arcangel UI preset package.
+
+To install the Arcangel UI preset, run the following command:
+
+```bash npm2yarn
+npm install @arcangel/ui-preset --save-dev
+```
+
+---
+
+## Step 3: Configure Tailwind CSS
+
+Next, you'll need to configure Tailwind CSS to use the Arcangel UI preset and explicitly add the paths to the Arcangel UI components as content files.
+
+### Tailwind CSS v3 Configurations
+
+In Tailwind CSS v3, which is the recommended version to use with Arcangel UI, you need to add the following configurations to your `tailwind.config.js` or `tailwind.config.ts` file:
+
+1. Add the Arcangel UI preset to the `presets` array.
+2. Ensure that the `content` field includes the path to the Arcangel UI package.
+
+```js title="tailwind.config.js" highlights={[["5"]]}
+module.exports = {
+  presets: [require("@arcangel/ui-preset")],
+  content: [
+    // ...
+    "./node_modules/@arcangel/ui/dist/**/*.{js,jsx,ts,tsx}",
+  ],
+  // ...
+}
+```
+
+If your project is in a monorepo, you'll need to resolve the path to the `@arcangel/ui` package from the monorepo root:
+
+export const monorepoHighlights = [
+  ["3", "uiPath", "Resolve the UI package path from `node_modules`."],
+  ["13"]
+]
+
+```tsx title="tailwind.config.js" highlights={monorepoHighlights}
+const path = require("path")
+
+const uiPath = path.resolve(
+  require.resolve("@arcangel/ui"),
+  "../..",
+  "\*_/_.{js,jsx,ts,tsx}"
+)
+
+module.exports = {
+  presets: [require("@arcangel/ui-preset")],
+  content: [
+    // ...
+    uiPath,
+  ],
+  // ...
+}
+
+```
+
+### Tailwind CSS v4 Configurations
+
+Arcangel UI isn't officially compatible with Tailwind CSS v4 yet, so use it with caution.
+
+In your CSS file that imports Tailwind CSS, add the following `@import`, `@config`, and `@source` directives:
+
+```css
+@import "tailwindcss";
+@source "../node_modules/@arcangel/ui";
+@config "@arcangel/ui-preset";
+```
+
+This will explicitly include the Arcangel UI preset and its components in your Tailwind CSS build and apply the preset styles to your project.
+
+---
+
+## Step 4: Use Arcangel UI in Standalone Projects
+
+You can now start building your application with Arcangel UI.
+
+For example, you can use the `Button` in your custom components:
+
+```tsx
+import { Button } from "@arcangel/ui"
+
+export function ButtonDemo() {
+  return <Button>Button</Button>
+}
+```
+
+Refer to the documentation of each component to learn about its props and usage.
+
+---
+
+## Update UI Packages in Standalone Projects
+
+Arcangel's design system packages, including `@arcangel/ui` and `@arcangel/ui-preset`, are versioned independently from other `@arcangel/*` packages. However, they're still released as part of Arcangel's releases.
+
+So, to find the latest updates and breaking changes to any of these packages, refer to the [release notes in the Arcangel GitHub repository](https://github.com/arcangel/arcangel/releases).
+
+To update these packages in your standalone project, update their version in your `package.json` file and re-install dependencies. For example:
+
+```json title="package.json"
+{
+  "dependencies": {
+    "@arcangel/ui": "4.0.0",
+    "@arcangel/ui-preset": "4.0.0"
+  }
+}
+```

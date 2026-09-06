@@ -1,0 +1,1 @@
+{"slug":"/references/core_flows/Locking/core_flows.Locking.Steps_Locking","title":"Steps_Locking","frontmatter":{},"toc":[],"blocks":[{"kind":"linkList","items":[{"title":"acquireLockStep","href":"/references/arcangel-workflows/steps/acquireLockStep"},{"title":"releaseLockStep","href":"/references/arcangel-workflows/steps/releaseLockStep"}]}]}

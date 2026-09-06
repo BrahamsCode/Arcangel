@@ -1,0 +1,14 @@
+{
+  "$schema": "http://json.schemastore.org/tsconfig",
+  "extends": [
+    "../../../../packages/arcangel/tsconfig.json"
+  ],
+  "include": ["../../../../packages/arcangel/src"],
+  "exclude": [
+    "../../../../packages/arcangel/dist", 
+    "../../../../packages/arcangel/node_modules"
+  ],
+  "compilerOptions": {
+    "rootDir": "../../../../packages/arcangel/src"
+  }
+}

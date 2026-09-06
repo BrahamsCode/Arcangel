@@ -1,0 +1,39 @@
+{
+  "name": "@arcangel/cache-inmemory",
+  "version": "2.20.1",
+  "description": "In-memory Cache Module for Arcangel",
+  "main": "dist/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arcangel/arcangel.git",
+    "directory": "packages/modules/cache-inmemory"
+  },
+  "bugs": {
+    "url": "https://github.com/arcangel/arcangel/issues"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "dist",
+    "!dist/**/__tests__",
+    "!dist/**/__mocks__",
+    "!dist/**/__fixtures__"
+  ],
+  "author": "Arcangel",
+  "license": "MIT",
+  "devDependencies": {
+    "@arcangel/framework": "2.20.1"
+  },
+  "scripts": {
+    "watch": "yarn run -T tsc --build --watch",
+    "build": "yarn run -T rimraf dist && yarn run -T tsc --build",
+    "test": "../../../node_modules/.bin/jest --passWithNoTests"
+  },
+  "peerDependencies": {
+    "@arcangel/framework": "2.20.1"
+  }
+}

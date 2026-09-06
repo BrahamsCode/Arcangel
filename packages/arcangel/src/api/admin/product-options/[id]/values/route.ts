@@ -1,0 +1,33 @@
+import {
+  AuthenticatedArcangelRequest,
+  ArcangelResponse,
+} from "@arcangel/framework/http"
+import { HttpTypes } from "@arcangel/framework/types"
+import { ContainerRegistrationKeys } from "@arcangel/framework/utils"
+
+/**
+ * @since 2.16.0
+ */
+export const GET = async (
+  req: AuthenticatedArcangelRequest<HttpTypes.AdminProductOptionValueListParams>,
+  res: ArcangelResponse<HttpTypes.AdminProductOptionValueListResponse>
+) => {
+  const query = req.scope.resolve(ContainerRegistrationKeys.QUERY)
+
+  const { data: product_option_values, metadata } = await query.graph({
+    entity: "product_option_value",
+    filters: {
+      ...req.filterableFields,
+      option_id: req.params.id,
+    },
+    fields: req.queryConfig.fields,
+    pagination: req.queryConfig.pagination,
+  })
+
+  res.json({
+    product_option_values,
+    count: metadata!.count,
+    offset: metadata!.skip,
+    limit: metadata!.take,
+  })
+}

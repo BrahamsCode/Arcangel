@@ -1,0 +1,50 @@
+import { ComponentExample } from "@/components/ComponentExample"
+import { ComponentReference } from "@/components/ComponentReference"
+
+export const metadata = {
+  title: `Command`,
+}
+
+# {metadata.title}
+
+A component that renders an unhighlighted code block, useful for one-liners or API routes.
+
+In this guide, you'll learn how to use the Command component.
+
+<ComponentExample name="command-demo" />
+
+## Usage
+
+```tsx
+import { Command } from "@arcangel/ui"
+```
+
+```tsx
+<Command>
+  <code>yarn add @arcangel/ui</code>
+</Command>
+```
+
+---
+
+## API Reference
+
+<ComponentReference mainComponent="Command" />
+
+---
+
+## Usage Outside Arcangel Admin
+
+If you're using the `Command` component in a project other than the Arcangel Admin, make sure to include the `TooltipProvider` somewhere up in your component tree, as the `Command.Copy` component uses a [Tooltip](../tooltip/page.mdx#usage-outside-arcangel-admin):
+
+```tsx
+<TooltipProvider>
+  <Command>
+    <code>yarn add @arcangel/ui</code>
+    <Command.Copy
+      content="yarn add @arcangel/ui"
+      className="ml-auto"
+    />
+  </Command>
+</TooltipProvider>
+```

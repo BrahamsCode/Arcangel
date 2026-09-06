@@ -1,0 +1,51 @@
+{
+  "name": "integration-tests-http",
+  "version": "1.1.23",
+  "main": "index.js",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "test:integration": "jest --no-cache --bail --detectOpenHandles --forceExit --logHeapUsage",
+    "test:integration:chunk": "jest --silent --no-cache --bail --forceExit",
+    "build": "tsc --allowJs --outDir ./dist"
+  },
+  "dependencies": {
+    "@arcangel/api-key": "workspace:^",
+    "@arcangel/arcangel": "workspace:*",
+    "@arcangel/auth": "workspace:*",
+    "@arcangel/cache-inmemory": "workspace:*",
+    "@arcangel/core-flows": "workspace:*",
+    "@arcangel/customer": "workspace:^",
+    "@arcangel/event-bus-local": "workspace:*",
+    "@arcangel/event-bus-redis": "workspace:*",
+    "@arcangel/framework": "workspace:*",
+    "@arcangel/fulfillment": "workspace:^",
+    "@arcangel/fulfillment-manual": "workspace:^",
+    "@arcangel/inventory": "workspace:^",
+    "@arcangel/loyalty-plugin": "workspace:^",
+    "@arcangel/modules-sdk": "workspace:^",
+    "@arcangel/pricing": "workspace:^",
+    "@arcangel/product": "workspace:^",
+    "@arcangel/promotion": "workspace:^",
+    "@arcangel/region": "workspace:^",
+    "@arcangel/stock-location": "workspace:^",
+    "@arcangel/store": "workspace:^",
+    "@arcangel/tax": "workspace:^",
+    "@arcangel/test-utils": "workspace:*",
+    "@arcangel/translation": "workspace:*",
+    "@arcangel/user": "workspace:^",
+    "@arcangel/utils": "workspace:^",
+    "@arcangel/workflow-engine-inmemory": "workspace:*",
+    "form-data": "^4.0.4",
+    "jsonwebtoken": "^9.0.2",
+    "pg": "^8.11.3"
+  },
+  "devDependencies": {
+    "@arcangel/types": "workspace:^",
+    "@swc/core": "^1.7.28",
+    "@swc/jest": "^0.2.36",
+    "jest": "^29.7.0",
+    "json-2-csv": "^5.5.11",
+    "typescript": "^5.6.2"
+  }
+}

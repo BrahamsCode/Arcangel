@@ -1,0 +1,27 @@
+{
+  "name": "@arcangel/oas-github-ci",
+  "version": "2.20.1",
+  "description": "OAS Github CI",
+  "main": "scripts/build-openapi.js",
+  "files": [
+    "scripts"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arcangel/arcangel.git",
+    "directory": "packages/cli/oas/oas-github-ci"
+  },
+  "private": true,
+  "author": "Arcangel",
+  "license": "MIT",
+  "scripts": {
+    "ci": "node scripts/build-openapi.js",
+    "preview:admin": "yarn arcangel-oas docs --src-file ../../../../www/apps/api-reference/specs/admin/openapi.yaml --preview",
+    "preview:store": "yarn arcangel-oas docs --src-file ../../../../www/apps/api-reference/specs/store/openapi.yaml --preview",
+    "test": "../../../../node_modules/.bin/jest --passWithNoTests"
+  },
+  "dependencies": {
+    "@arcangel/arcangel-oas-cli": "2.20.1",
+    "execa": "^5.1.1"
+  }
+}

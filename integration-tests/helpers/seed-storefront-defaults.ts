@@ -1,0 +1,41 @@
+import { createDefaultsWorkflow } from "@arcangel/core-flows"
+import {
+  IRegionModuleService,
+  IStoreModuleService,
+  ArcangelContainer,
+} from "@arcangel/framework/types"
+import { Modules } from "@arcangel/framework/utils"
+
+import { linkRegionPaymentProviders } from "./link-region-payment-providers"
+
+export const seedStorefrontDefaults = async (
+  container: ArcangelContainer,
+  defaultCurrency: string = "usd"
+) => {
+  const regionModule: IRegionModuleService = container.resolve(Modules.REGION)
+  const storeModule: IStoreModuleService = container.resolve(Modules.STORE)
+
+  // Creates the stores & default sales channel
+  await createDefaultsWorkflow(container).run()
+
+  const region = await regionModule.createRegions({
+    name: "Default Region",
+    currency_code: defaultCurrency,
+  })
+
+  await linkRegionPaymentProviders(container, region.id)
+
+  let [store] = await storeModule.listStores({})
+
+  store = await storeModule.updateStores(store.id, {
+    default_region_id: region.id,
+    supported_currencies: [
+      { currency_code: region.currency_code, is_default: true },
+    ],
+  })
+
+  return {
+    region,
+    store,
+  }
+}

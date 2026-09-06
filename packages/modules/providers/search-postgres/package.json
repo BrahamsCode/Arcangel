@@ -1,0 +1,50 @@
+{
+  "name": "@arcangel/search-postgres",
+  "version": "2.20.1",
+  "description": "PostgreSQL search provider for Arcangel, backed by tsvector and pg_trgm",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arcangel/arcangel.git",
+    "directory": "packages/modules/providers/search-postgres"
+  },
+  "bugs": {
+    "url": "https://github.com/arcangel/arcangel/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "dist",
+    "!dist/**/__tests__",
+    "!dist/**/__mocks__",
+    "!dist/**/__fixtures__"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "author": "Arcangel",
+  "license": "MIT",
+  "scripts": {
+    "test": "../../../../node_modules/.bin/jest --passWithNoTests src",
+    "test:integration": "../../../../node_modules/.bin/jest --passWithNoTests --forceExit --testPathPattern=\"integration-tests/__tests__/.*\\.spec\\.ts\"",
+    "build": "yarn run -T rimraf dist && yarn run -T tsc --build ./tsconfig.json",
+    "watch": "yarn run -T tsc --watch",
+    "migration:initial": "MIKRO_ORM_CLI_CONFIG=./mikro-orm.config.dev.ts MIKRO_ORM_ALLOW_GLOBAL_CLI=true arcangel-mikro-orm migration:create --initial -n InitialSetupMigration",
+    "migration:create": "MIKRO_ORM_CLI_CONFIG=./mikro-orm.config.dev.ts MIKRO_ORM_ALLOW_GLOBAL_CLI=true arcangel-mikro-orm migration:create",
+    "migration:up": "MIKRO_ORM_CLI_CONFIG=./mikro-orm.config.dev.ts MIKRO_ORM_ALLOW_GLOBAL_CLI=true arcangel-mikro-orm migration:up",
+    "orm:cache:clear": "MIKRO_ORM_CLI_CONFIG=./mikro-orm.config.dev.ts MIKRO_ORM_ALLOW_GLOBAL_CLI=true arcangel-mikro-orm cache:clear"
+  },
+  "devDependencies": {
+    "@arcangel/framework": "2.20.1",
+    "@arcangel/test-utils": "2.20.1"
+  },
+  "peerDependencies": {
+    "@arcangel/framework": "2.20.1"
+  },
+  "keywords": [
+    "arcangel-plugin",
+    "arcangel-plugin-search"
+  ]
+}

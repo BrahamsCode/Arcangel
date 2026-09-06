@@ -1,0 +1,10 @@
+# All files not owned by other teams must be reviewed by the core team
+*                                               @arcangel/core 
+package.json                                    @arcangel/core
+yarn.lock                                       @arcangel/os
+/.changeset/                                    @arcangel/os
+/packages/                                      @arcangel/os
+/integration-tests/                             @arcangel/os
+/docs-util/                                     @arcangel/docs
+/www/                                           @arcangel/docs
+/packages/design-system/                        @arcangel/ui

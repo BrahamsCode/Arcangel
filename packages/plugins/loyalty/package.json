@@ -1,0 +1,120 @@
+{
+  "name": "@arcangel/loyalty-plugin",
+  "version": "2.20.1",
+  "description": "Arcangel Plugin: Loyalty - Gift Cards",
+  "author": "Arcangel (https://arcangel.com)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arcangel/arcangel.git",
+    "directory": "packages/plugins/loyalty"
+  },
+  "bugs": {
+    "url": "https://github.com/arcangel/arcangel/issues"
+  },
+  "files": [
+    ".arcangel/server"
+  ],
+  "exports": {
+    "./package.json": "./package.json",
+    "./modules/loyalty/*": "./.arcangel/server/src/modules/loyalty/index.js",
+    "./.arcangel/server/src/modules/loyalty": "./.arcangel/server/src/modules/loyalty/index.js",
+    "./.arcangel/server/src/modules/store-credit": "./.arcangel/server/src/modules/store-credit/index.js",
+    "./.arcangel/server/src/*": "./.arcangel/server/src/**/*.js",
+    "./workflows": {
+      "import": "./.arcangel/server/src/workflows/index.js",
+      "types": "./.arcangel/server/src/workflows/index.d.ts",
+      "require": "./.arcangel/server/src/workflows/index.js"
+    },
+    "./types": {
+      "import": "./.arcangel/server/src/types/index.js",
+      "types": "./.arcangel/server/src/types/index.d.ts",
+      "require": "./.arcangel/server/src/types/index.js"
+    },
+    "./admin": {
+      "import": "./.arcangel/server/src/admin/index.mjs",
+      "require": "./.arcangel/server/src/admin/index.js",
+      "default": "./.arcangel/server/src/admin/index.js"
+    }
+  },
+  "keywords": [
+    "sqlite",
+    "postgres",
+    "typescript",
+    "ecommerce",
+    "headless",
+    "arcangel",
+    "plugin"
+  ],
+  "scripts": {
+    "build:plugin": "arcangel plugin:build",
+    "dev": "arcangel plugin:develop",
+    "prepare": "cross-env NODE_ENV=production yarn run build:plugin",
+    "link:watch": "arcangel plugin:publish && arcangel plugin:develop",
+    "test": "../../../node_modules/.bin/jest --bail --forceExit --testPathPattern=src",
+    "watch": "arcangel plugin:develop"
+  },
+  "devDependencies": {
+    "@arcangel/admin-sdk": "2.20.1",
+    "@arcangel/arcangel": "2.20.1",
+    "@arcangel/cli": "2.20.1",
+    "@arcangel/dashboard": "2.20.1",
+    "@arcangel/framework": "2.20.1",
+    "@arcangel/icons": "2.20.1",
+    "@arcangel/test-utils": "2.20.1",
+    "@arcangel/types": "2.20.1",
+    "@arcangel/ui": "4.2.3",
+    "@arcangel/ui-preset": "2.20.1",
+    "@swc/core": "1.5.7",
+    "@types/node": "^20.0.0",
+    "cross-env": "^7.0.3",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.3"
+  },
+  "peerDependencies": {
+    "@arcangel/admin-sdk": "2.20.1",
+    "@arcangel/arcangel": "2.20.1",
+    "@arcangel/cli": "2.20.1",
+    "@arcangel/dashboard": "2.20.1",
+    "@arcangel/framework": "2.20.1",
+    "@arcangel/icons": "2.20.1",
+    "@arcangel/test-utils": "2.20.1",
+    "@arcangel/ui": "4.2.3",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.30.4 || ^7.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@arcangel/admin-sdk": {
+      "optional": true
+    },
+    "@arcangel/cli": {
+      "optional": true
+    },
+    "@arcangel/dashboard": {
+      "optional": true
+    },
+    "@arcangel/icons": {
+      "optional": true
+    },
+    "@arcangel/test-utils": {
+      "optional": true
+    },
+    "@arcangel/ui": {
+      "optional": true
+    },
+    "react": {
+      "optional": true
+    },
+    "react-dom": {
+      "optional": true
+    },
+    "react-router-dom": {
+      "optional": true
+    }
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "packageManager": "yarn@3.2.1"
+}
